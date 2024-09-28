@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class Admin extends User implements Serializable {
 
     @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "contactId")
+    //@JoinColumn(name = "contactId")
     private Contact contact;
 
 }
