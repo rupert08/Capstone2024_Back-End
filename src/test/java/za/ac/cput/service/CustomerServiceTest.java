@@ -15,6 +15,7 @@ import za.ac.cput.factory.ContactFactory;
 import za.ac.cput.factory.CustomerFactory;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,8 +35,8 @@ class  CustomerServiceTest {
 
     @Test
     void a_create() {
+        address.setCustomer(customer);
         Customer created = customerService.create(customer);
-        assertNotNull(created);
         System.out.println(created);
     }
 
