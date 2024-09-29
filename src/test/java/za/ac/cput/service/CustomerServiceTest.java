@@ -15,8 +15,7 @@ import za.ac.cput.factory.ContactFactory;
 import za.ac.cput.factory.CustomerFactory;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +30,7 @@ class  CustomerServiceTest {
     private static final Address address = AddressFactory.createAddress("12", "Test Street", "Grabouw", "Western Cape", "7160");
 
     private static final Customer customer = CustomerFactory.createCustomer(
-            contact.getEmail(), "Connor", "McGregor", contact, "123456", Collections.singletonList(address));;
+            contact.getEmail(), "Connor", "McGregor", contact, "123456", Collections.singletonList(address));
 
     @Test
     void a_create() {
