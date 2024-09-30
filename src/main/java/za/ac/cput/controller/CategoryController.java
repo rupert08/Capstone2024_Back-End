@@ -19,10 +19,6 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
-//    @PostMapping("/create")
-//    public Category createCategory(@RequestBody Category category) {
-//        return categoryService.create(category);
-//    }
 @PostMapping("/create")
 public ResponseEntity<Category> createCategory(@RequestBody Category category) {
     Category createdCategory = categoryService.create(category);

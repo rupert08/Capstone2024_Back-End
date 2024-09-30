@@ -18,7 +18,7 @@ import java.util.Set;
 @SuperBuilder(toBuilder = true)  // Change to @SuperBuilder
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Customer extends User implements Serializable {
+public class Customer extends Users implements Serializable {
     private String firstName;
     private String lastName;
 
