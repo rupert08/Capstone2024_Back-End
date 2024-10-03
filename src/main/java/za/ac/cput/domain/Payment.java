@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "payment")
 @Getter
 @Setter
 @NoArgsConstructor

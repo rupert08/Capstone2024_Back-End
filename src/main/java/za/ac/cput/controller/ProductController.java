@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import za.ac.cput.domain.Product;
 import za.ac.cput.service.AdminService;
+import za.ac.cput.service.CustomerService;
 import za.ac.cput.service.ProductService;
 
 import java.util.List;
@@ -18,12 +19,8 @@ import java.util.Set;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService productService;
-
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private ProductService productService;
 
     @PostMapping("/create")
     public ResponseEntity<Product> create(@RequestBody Product product) {
@@ -41,8 +38,14 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        productService.delete(id);
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        if(product != null) {
+            productService.delete(id);
+            return new ResponseEntity<>("Deleted " + product.getName(), HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>("Product Not Found", HttpStatus.PRECONDITION_FAILED);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/getAll")

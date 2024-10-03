@@ -12,7 +12,7 @@ import java.util.List;
 //add comments to the class
 
 @Entity
-@Table(name = "carts")
+@Table(name = "cart")
 @Getter
 @Setter
 @NoArgsConstructor

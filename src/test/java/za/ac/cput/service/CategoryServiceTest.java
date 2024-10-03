@@ -37,20 +37,20 @@ class CategoryServiceTest {
                     products
             );
 
-            Product product1 = ProductFactory.createProduct(
-                    "Power Drill",
-                    "High-speed power drill for home and professional use",
-                    BigDecimal.valueOf(699.99), // Use BigDecimal for price and calc
-                    category
-            );
-            Product product2 = ProductFactory.createProduct(
-                    "Electric Saw",
-                    "Efficient electric saw for cutting wood and metal",
-                    BigDecimal.valueOf(499.99),
-                    category
-            );
-            products.add(product1);
-            products.add(product2);
+//            Product product1 = ProductFactory.createProduct(
+//                    "Power Drill",
+//                    "High-speed power drill for home and professional use",
+//                    BigDecimal.valueOf(699.99), // Use BigDecimal for price and calc
+//                    category
+//            );
+//            Product product2 = ProductFactory.createProduct(
+//                    "Electric Saw",
+//                    "Efficient electric saw for cutting wood and metal",
+//                    BigDecimal.valueOf(499.99),
+//                    category
+//            );
+//            products.add(product1);
+//            products.add(product2);
 
 
         } catch (IOException | SQLException e) {

@@ -68,12 +68,10 @@ public class ProductService implements IProductService {
             product.setCategory(category);  // Set the managed category entity
         //}
 
-        // Set the product image fields
         product.setImageName(image.getOriginalFilename());
         product.setImageType(image.getContentType());
         product.setImageData(image.getBytes());
 
-        // Save and return the product
         return productRepository.save(product);
     }
 

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Entity
-@Table(name = "cart_items")
+@Table(name = "cart_item")
 @Getter
 @Setter
 @NoArgsConstructor

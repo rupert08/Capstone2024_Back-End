@@ -46,7 +46,7 @@ public class CategoryFactory {
                 .name(name)
                 .description(description)
                 //.image(imagePath)
-                .products(products)
+                //.products(products)
                 .build();
 //        if (products != null) {
 //            for (Product product : products) {

@@ -10,6 +10,7 @@ import java.util.Objects;
 
 
 @Entity
+@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor

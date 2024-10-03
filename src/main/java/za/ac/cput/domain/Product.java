@@ -5,12 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.Blob;
-import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,10 +41,5 @@ public class Product {
     @Lob
     private byte[] imageData;
 
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-//    private List<CartItem> cartItems;
 
-//    public Product copy() {
-//        return this.toBuilder().build();
-//    }
 }

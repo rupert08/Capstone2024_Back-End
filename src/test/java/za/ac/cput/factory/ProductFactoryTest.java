@@ -31,7 +31,6 @@ public class ProductFactoryTest {
         Product productWithImage = ProductFactory.createProduct("Power Drill",
                 "High-speed power drill for home and professional use",
                 BigDecimal.valueOf(699.99),
-              //  "",
                 category);
 
         assertNotNull(productWithImage);
