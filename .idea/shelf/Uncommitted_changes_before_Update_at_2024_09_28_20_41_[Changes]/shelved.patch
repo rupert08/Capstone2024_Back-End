@@ -1,0 +1,56 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_22\" default=\"true\" project-jdk-name=\"22\" project-jdk-type=\"JavaSDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 8abbc86aa38a2fa39795194fdbcd30ce650a4b55)
++++ b/.idea/misc.xml	(date 1727544219790)
+@@ -7,6 +7,7 @@
+         <option value="$PROJECT_DIR$/pom.xml" />
+       </list>
+     </option>
++    <option name="workspaceImportForciblyTurnedOn" value="true" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="22" project-jdk-type="JavaSDK" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="22" project-jdk-type="JavaSDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1727544219778)
++++ b/.idea/vcs.xml	(date 1727544219778)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.application.name=Ecommerce-Hardware\r\nspring.jpa.hibernate.ddl-auto=update\r\nspring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/Ecommerce-Hardware?createDatabaseIfNotExist=true\r\nspring.datasource.username=root\r\nspring.datasource.password=password\r\nspring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\n#spring.jpa.show-sql: true\r\nserver.port=8082\r\nserver.servlet.context-path=/ecommerce\r\nproperty=name=\"hibernate.enable_lazy_load_no_trans\" value=\"true\"\r\n\r\n# Allow requests from your Vue.js frontend\r\nspring.mvc.cors.allowed-origins=http://localhost:5119\r\nspring.mvc.cors.allowed-methods=GET,POST,PUT,DELETE
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/target/classes/application.properties b/target/classes/application.properties
+--- a/target/classes/application.properties	(revision 8abbc86aa38a2fa39795194fdbcd30ce650a4b55)
++++ b/target/classes/application.properties	(date 1727546049651)
+@@ -9,6 +9,6 @@
+ server.servlet.context-path=/ecommerce
+ property=name="hibernate.enable_lazy_load_no_trans" value="true"
+ 
+-# Allow requests from your Vue.js frontend
++# Allow requests from Vue.js frontend
+ spring.mvc.cors.allowed-origins=http://localhost:5119
+ spring.mvc.cors.allowed-methods=GET,POST,PUT,DELETE
+\ No newline at end of file
