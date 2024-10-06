@@ -78,4 +78,12 @@ public class ProductService implements IProductService {
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
+
+    public Product updateProduct(long id, Product product, MultipartFile image) throws IOException {
+        product.setImageName(image.getOriginalFilename());
+        product.setImageType(image.getContentType());
+        product.setImageData(image.getBytes());
+
+        return productRepository.save(product);
+    }
 }

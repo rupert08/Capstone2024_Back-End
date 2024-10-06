@@ -37,6 +37,7 @@ public class Product {
 
     private String imageName;
     private String imageType;
+
     @Column(length = 65555)
     @Lob
     private byte[] imageData;
