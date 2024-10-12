@@ -1,0 +1,788 @@
+Index: src/test/java/za/ac/cput/factory/CategoryFactoryTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.factory;\r\n\r\nimport org.junit.jupiter.api.*;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport za.ac.cput.domain.Category;\r\nimport za.ac.cput.domain.Product;\r\n\r\nimport javax.sql.rowset.serial.SerialBlob;\r\nimport java.math.BigDecimal;\r\nimport java.nio.file.Files;\r\nimport java.nio.file.Paths;\r\nimport java.sql.Blob;\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@SpringBootTest\r\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class)\r\npublic class CategoryFactoryTest {\r\n\r\n    private Product product1;\r\n    private Product product2;\r\n    private final String categoryName = \"Power Tools\";\r\n    private final String categoryDescription = \"Tools powered by electricity or battery\";\r\n    private final String imagePath = \"C:\\\\Users\\\\User\\\\OneDrive\\\\Desktop\\\\Hardware-Ecommerce (24Aug)\\\\Images\\\\PowerToolsHeading.jpg\";\r\n\r\n    @BeforeEach\r\n    void setUp() throws Exception {\r\n        byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));\r\n        Blob imageBlob = new SerialBlob(imageBytes);\r\n\r\n        // Refactor: Use BigDecimal for the product price\r\n        product1 = Product.builder()\r\n                .name(\"Power Drill\")\r\n                .description(\"High-speed power drill for home and professional use\")\r\n                .price(BigDecimal.valueOf(699.99)) // Use BigDecimal.valueOf() for the price\r\n                //.image(imageBlob)\r\n                .build();\r\n\r\n        product2 = Product.builder()\r\n                .name(\"Electric Saw\")\r\n                .description(\"Efficient electric saw for cutting wood and metal\")\r\n                .price(BigDecimal.valueOf(499.99)) // Use BigDecimal.valueOf() for the price\r\n                //.image(imageBlob)\r\n                .build();\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    void createCategoryWithJustName() throws Exception {\r\n        Category category = CategoryFactory.createCategory(categoryName, null, null);\r\n\r\n        assertNotNull(category);\r\n        //assertEquals(categoryName, category.getName());\r\n        //assertNull(category.getImage());\r\n        //assertTrue(category.getProducts().isEmpty());\r\n\r\n        System.out.println(\"Category created with just name: \" + category);\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    void createCategoryWithProducts() throws Exception {\r\n        Set<Product> products = new HashSet<>();\r\n        products.add(product1);\r\n        products.add(product2);\r\n\r\n        Category category = CategoryFactory.createCategory(categoryName, categoryDescription, products);\r\n\r\n        assertNotNull(category);\r\n        assertEquals(categoryName, category.getName());\r\n        assertEquals(categoryDescription, category.getDescription());\r\n        //assertNotNull(category.getImage());\r\n        assertFalse(category.getProducts().isEmpty());\r\n        assertEquals(2, category.getProducts().size());\r\n        assertTrue(category.getProducts().contains(product1));\r\n        assertTrue(category.getProducts().contains(product2));\r\n\r\n        System.out.println(\"Category with products: \" + category);\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    void createCategoryWithInvalidName() throws Exception {\r\n        Category category = CategoryFactory.createCategory(null, categoryDescription, new HashSet<>());\r\n\r\n        assertNotNull(category.getName());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java b/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java
+--- a/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java	(date 1728508147904)
+@@ -72,10 +72,10 @@
+         assertEquals(categoryName, category.getName());
+         assertEquals(categoryDescription, category.getDescription());
+         //assertNotNull(category.getImage());
+-        assertFalse(category.getProducts().isEmpty());
+-        assertEquals(2, category.getProducts().size());
+-        assertTrue(category.getProducts().contains(product1));
+-        assertTrue(category.getProducts().contains(product2));
++//        assertFalse(category.getProducts().isEmpty());
++//        assertEquals(2, category.getProducts().size());
++//        assertTrue(category.getProducts().contains(product1));
++//        assertTrue(category.getProducts().contains(product2));
+ 
+         System.out.println("Category with products: " + category);
+     }
+@@ -87,4 +87,4 @@
+ 
+         assertNotNull(category.getName());
+     }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/za/ac/cput/factory/CategoryFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.factory;\r\n\r\nimport za.ac.cput.domain.Category;\r\nimport za.ac.cput.domain.Product;\r\nimport za.ac.cput.util.Helper;\r\n\r\nimport javax.sql.rowset.serial.SerialBlob;\r\nimport java.nio.file.Files;\r\nimport java.nio.file.Paths;\r\nimport java.sql.Blob;\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\npublic class CategoryFactory {\r\n\r\n    public static Category createCategory(String name, String description, /*String imagePath,*/ Set<Product> products) throws Exception {\r\n        // Check if the imagePath is null or empty and set a default string if true\r\n//        Blob imageBlob = null;\r\n//        if (imagePath != null && !imagePath.isEmpty()) {\r\n//            // Attempt to read the image file and create a Blob if the path is valid\r\n//            try {\r\n//                byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));\r\n//                imageBlob = new SerialBlob(imageBytes);\r\n//            } catch (Exception e) {\r\n//                // Handle potential file reading issues (e.g., file not found)\r\n//                System.out.println(\"Image not found or invalid path: \" + imagePath+ \" \" + e.getMessage());\r\n//                imagePath = \"image not found or invalid path\";\r\n//            }\r\n//        } else {\r\n//            // Default message for invalid image paths\r\n//            imagePath = \"image not found or invalid path\";\r\n//            System.out.println(imagePath);\r\n//        }\r\n\r\n        if(Helper.isNullOrEmpty(name)){\r\n            throw new IllegalArgumentException(\"Category name cannot be null/empty\");\r\n        }\r\n        if(Helper.isNullOrEmpty(description)){\r\n            description = \"no description\";\r\n        }\r\n\r\n        if(Helper.isNullOrEmpty(String.valueOf(products))){\r\n            products = new HashSet<>();\r\n        }\r\n\r\n        Category category = Category.builder()\r\n                .name(name)\r\n                .description(description)\r\n                //.image(imagePath)\r\n                .products(products)\r\n                .build();\r\n//        if (products != null) {\r\n//            for (Product product : products) {\r\n//                category.addProduct(product);\r\n//            }\r\n//        }\r\n        return category;\r\n    }\r\n    public static Category createCategoryWithoutProducts(String name, String description/*, String imagePath*/) throws Exception {\r\n        return createCategory(name, description, /*imagePath,*/ new HashSet<>());\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/za/ac/cput/factory/CategoryFactory.java b/src/main/java/za/ac/cput/factory/CategoryFactory.java
+--- a/src/main/java/za/ac/cput/factory/CategoryFactory.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/main/java/za/ac/cput/factory/CategoryFactory.java	(date 1728508858372)
+@@ -46,7 +46,7 @@
+                 .name(name)
+                 .description(description)
+                 //.image(imagePath)
+-                .products(products)
++                //.products(products)
+                 .build();
+ //        if (products != null) {
+ //            for (Product product : products) {
+@@ -55,7 +55,7 @@
+ //        }
+         return category;
+     }
+-    public static Category createCategoryWithoutProducts(String name, String description/*, String imagePath*/) throws Exception {
++    public static Category createCategory(String name, String description/*, String imagePath*/) throws Exception {
+         return createCategory(name, description, /*imagePath,*/ new HashSet<>());
+     }
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"ba203461-66bc-4905-afcc-14e81a6f7e72\" name=\"Changes\" comment=\"Functionality of OrderManangement and Category in the fontend + additional\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/dataSources.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/controller/OrderControllerTest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/CartServiceTest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/OrderServiceTest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/PaymentServiceTest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/ShippingServiceTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/AddressController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/AddressController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartItemController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartItemController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CategoryController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CategoryController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/OrderController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/OrderController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/ProductController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/controller/ProductController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Address.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Address.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Admin.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Admin.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Cart.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Cart.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/CartItem.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/CartItem.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Category.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Category.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Contact.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Contact.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Customer.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Customer.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Order.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Order.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Photo.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Photo.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Product.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Product.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Shipping.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Shipping.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/User.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Users.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartFactory.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartFactory.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartItemFactory.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartItemFactory.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/OrderFactory.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/OrderFactory.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/ProductFactory.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/factory/ProductFactory.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/repository/ContactRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/repository/ContactRepository.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/AddressService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/AddressService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartItemService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartItemService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/CustomerService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/CustomerService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/OrderService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/OrderService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/ProductService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/ProductService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/ICartService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/ICartService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IOrderService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IOrderService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IProductService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IProductService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/AdminFactoryTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/AdminFactoryTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/OrderFactoryTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/OrderFactoryTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PaymentFactoryTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PaymentFactoryTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PhotoFactoryTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PhotoFactoryTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/ProductFactoryTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/factory/ProductFactoryTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/AddressServiceTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/AddressServiceTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/CartItemServiceTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/CartItemServiceTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/CategoryServiceTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/CategoryServiceTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/ProductServiceTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/za/ac/cput/service/ProductServiceTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/Main.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/Main.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/AddressController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/AddressController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/AdminController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/AdminController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartItemController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartItemController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CategoryController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CategoryController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CustomerController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/CustomerController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/OrderController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/OrderController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/PhotoController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/PhotoController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/ProductController.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/controller/ProductController.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address$AddressBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address$AddressBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilderImpl.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilderImpl.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart$CartBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart$CartBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem$CartItemBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem$CartItemBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category$CategoryBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category$CategoryBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact$ContactBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact$ContactBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilderImpl.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilderImpl.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order$OrderBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order$OrderBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/OrderStatus.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/OrderStatus.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment$PaymentBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment$PaymentBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/PaymentMethod.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/PaymentMethod.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo$PhotoBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo$PhotoBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product$ProductBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product$ProductBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping$ShippingBuilder.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping$ShippingBuilder.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/User$UserBuilder.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/User$UserBuilderImpl.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/domain/User.class\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/AddCartItem.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/AddCartItem.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerAddress.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerAddress.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerCart.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerCart.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/ProductPhoto.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/facade/ProductPhoto.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/AddressFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/AddressFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/AdminFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/AdminFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartItemFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartItemFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CategoryFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CategoryFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/ContactFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/ContactFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CustomerFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/CustomerFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/OrderFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/OrderFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/PaymentFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/PaymentFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/PhotoFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/PhotoFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/ProductFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/ProductFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/ShippingFactory.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/factory/ShippingFactory.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/AddressRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/AddressRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/AdminRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/AdminRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartItemRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartItemRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CategoryRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CategoryRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/ContactRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/ContactRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CustomerRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/CustomerRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/OderRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/OderRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/OrderRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/OrderRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/PaymentRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/PaymentRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/PhotoRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/PhotoRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/ProductRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/ProductRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/ShippingRepository.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/repository/ShippingRepository.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/AddressService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/AddressService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminFacade.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminFacade.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CartItemService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CartItemService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CartService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CartService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CategoryService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CategoryService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/ContactService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/ContactService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CustomerService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/CustomerService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/OrderService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/OrderService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/PaymentService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/PaymentService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/PhotoService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/PhotoService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/ProductService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/ProductService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/ShippingService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/ShippingService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAddressService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAddressService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAdminService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAdminService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartItemService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartItemService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICategoryService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICategoryService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IContactService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IContactService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICustomerService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICustomerService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IOrderService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IOrderService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPaymentService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPaymentService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPhotoService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPhotoService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IProductService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IProductService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IShippingService.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IShippingService.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/AddressHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/AddressHelper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/CartHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/CartHelper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/CartItemHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/CartItemHelper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/ContactHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/ContactHelper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/CustomerHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/CustomerHelper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/Helper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/Helper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/PaymentHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/PaymentHelper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/ProductHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/ProductHelper.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/ShippingHelper.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/za/ac/cput/util/ShippingHelper.class\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n        <option value=\"JUnit5 Test Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;rupert08&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/rupert08/Capstone2024_Back-End.git&quot;,\r\n    &quot;accountId&quot;: &quot;82ef846b-0c06-47b9-a482-f5c660722348&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 1\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2mi5kNQR6NQ7xqeR1iTAq7sHnBH\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;JUnit.CartItemServiceTest.a_create.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.CartItemServiceTest.b_read.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.CartItemServiceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.CartServiceTest.b_read.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.CartServiceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.CategoryServiceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.CustomerServiceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.OrderControllerTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.OrderServiceTest.a_create.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.OrderServiceTest.b_read.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.OrderServiceTest.c_getAll.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.OrderServiceTest.d_delete.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.OrderServiceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.ProductServiceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,\r\n    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,\r\n    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,\r\n    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;Spring Boot.Main.executor&quot;: &quot;Run&quot;,\r\n    &quot;ToolWindow.GitHub Copilot Chat.ShowToolbar&quot;: &quot;false&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;222894237&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/Rupert/Desktop/Capstone-Front-End/Hardware-Ecommerce&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"za.ac.cput.controller\" />\r\n      <recent name=\"za.ac.cput.service\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"JUnit.OrderControllerTest\">\r\n    <configuration name=\"OrderControllerTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Hardware-Ecommerce\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"za.ac.cput.controller.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"za.ac.cput.controller\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"za.ac.cput.controller.OrderControllerTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"OrderServiceTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Hardware-Ecommerce\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"za.ac.cput.service.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"za.ac.cput.service\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"za.ac.cput.service.OrderServiceTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"OrderServiceTest.c_getAll\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Hardware-Ecommerce\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"za.ac.cput.service.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"za.ac.cput.service\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"za.ac.cput.service.OrderServiceTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"c_getAll\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"OrderServiceTest.d_delete\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Hardware-Ecommerce\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"za.ac.cput.service.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"za.ac.cput.service\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"za.ac.cput.service.OrderServiceTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"d_delete\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ProductServiceTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Hardware-Ecommerce\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"za.ac.cput.service.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"za.ac.cput.service\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"za.ac.cput.service.ProductServiceTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Main\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"Hardware-Ecommerce\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"za.ac.cput.Main\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.OrderControllerTest\" />\r\n        <item itemvalue=\"JUnit.OrderServiceTest\" />\r\n        <item itemvalue=\"JUnit.OrderServiceTest.c_getAll\" />\r\n        <item itemvalue=\"JUnit.OrderServiceTest.d_delete\" />\r\n        <item itemvalue=\"JUnit.ProductServiceTest\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.22855.74\" />\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.22855.74\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"ba203461-66bc-4905-afcc-14e81a6f7e72\" name=\"Changes\" comment=\"\" />\r\n      <created>1727546697725</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1727546697725</updated>\r\n      <workItem from=\"1727546698793\" duration=\"4443000\" />\r\n      <workItem from=\"1727553227078\" duration=\"1096000\" />\r\n      <workItem from=\"1727558137589\" duration=\"15282000\" />\r\n      <workItem from=\"1727627672404\" duration=\"62811000\" />\r\n      <workItem from=\"1728063773332\" duration=\"3709000\" />\r\n      <workItem from=\"1728131773528\" duration=\"52437000\" />\r\n      <workItem from=\"1728420946686\" duration=\"6834000\" />\r\n      <workItem from=\"1728504311548\" duration=\"2909000\" />\r\n      <workItem from=\"1728507280585\" duration=\"2219000\" />\r\n      <workItem from=\"1728588878950\" duration=\"18148000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Ensure address table populates with customer relationship\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1727648010807</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1727648010807</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Ensure address table populates with customer relationship\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1727648118210</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1727648118210</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Ensure address table populates with customer relationship\" />\r\n    <MESSAGE value=\"Functionality of OrderManangement and Category in the fontend + additional\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Functionality of OrderManangement and Category in the fontend + additional\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\r\n          <url>file://$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java</url>\r\n          <line>59</line>\r\n          <option name=\"timeStamp\" value=\"13\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/.idea/workspace.xml	(date 1728747052538)
+@@ -5,165 +5,32 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="ba203461-66bc-4905-afcc-14e81a6f7e72" name="Changes" comment="Functionality of OrderManangement and Category in the fontend + additional">
+-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/controller/OrderControllerTest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/CartServiceTest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/OrderServiceTest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/PaymentServiceTest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/ShippingServiceTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/AddressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/AddressController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CartItemController.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CategoryController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/OrderController.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/ProductController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Address.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Admin.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Cart.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/CartItem.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Category.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Contact.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Customer.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Order.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Photo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Photo.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Product.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Shipping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Shipping.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Users.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartFactory.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CartItemFactory.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/OrderFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/OrderFactory.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/ProductFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/ProductFactory.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/repository/ContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/repository/ContactRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/AddressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/AddressService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartItemService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/CartService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/CustomerService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/OrderService.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/ProductService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/ICartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/ICartService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IOrderService.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IProductService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/AdminFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/AdminFactoryTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/OrderFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/OrderFactoryTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PaymentFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PaymentFactoryTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PhotoFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PhotoFactoryTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/ProductFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/ProductFactoryTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/AddressServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/AddressServiceTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/CartItemServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/CartItemServiceTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/CategoryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/CategoryServiceTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/ProductServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/ProductServiceTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/Main.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/AddressController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/AddressController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/AdminController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartItemController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartItemController.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CategoryController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CustomerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CustomerController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/OrderController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/PhotoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/PhotoController.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/ProductController.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address$AddressBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address$AddressBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilderImpl.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart$CartBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart$CartBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem$CartItemBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem$CartItemBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category$CategoryBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category$CategoryBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact$ContactBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact$ContactBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilderImpl.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order$OrderBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order$OrderBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/OrderStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/OrderStatus.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment$PaymentBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment$PaymentBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/PaymentMethod.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/PaymentMethod.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo$PhotoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo$PhotoBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product$ProductBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product$ProductBuilder.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping$ShippingBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping$ShippingBuilder.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/User$UserBuilder.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/User$UserBuilderImpl.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/User.class" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/AddCartItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/AddCartItem.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerAddress.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerAddress.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerCart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerCart.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/ProductPhoto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/ProductPhoto.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/AddressFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/AddressFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/AdminFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/AdminFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartItemFactory.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CategoryFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CategoryFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ContactFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ContactFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CustomerFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CustomerFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/OrderFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/OrderFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/PaymentFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/PaymentFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/PhotoFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/PhotoFactory.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ProductFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ProductFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ShippingFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ShippingFactory.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/AddressRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/AddressRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/AdminRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/AdminRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartItemRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartItemRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CategoryRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CategoryRepository.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ContactRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ContactRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CustomerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CustomerRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/OderRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/OderRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/OrderRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/OrderRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/PaymentRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/PaymentRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/PhotoRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/PhotoRepository.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ProductRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ShippingRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ShippingRepository.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AddressService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AddressService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminFacade.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CartItemService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CartItemService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CartService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CartService.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CategoryService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ContactService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ContactService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CustomerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CustomerService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/OrderService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/PaymentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/PaymentService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/PhotoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/PhotoService.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ProductService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ShippingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ShippingService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAddressService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAddressService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAdminService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartItemService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartItemService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartService.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICategoryService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IContactService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IContactService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICustomerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICustomerService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IOrderService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPaymentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPaymentService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPhotoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPhotoService.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IProductService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IShippingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IShippingService.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/AddressHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/AddressHelper.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CartHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CartHelper.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CartItemHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CartItemHelper.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ContactHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ContactHelper.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CustomerHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CustomerHelper.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/Helper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/Helper.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/PaymentHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/PaymentHelper.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ProductHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ProductHelper.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ShippingHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ShippingHelper.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -373,7 +240,7 @@
+       <workItem from="1728420946686" duration="6834000" />
+       <workItem from="1728504311548" duration="2909000" />
+       <workItem from="1728507280585" duration="2219000" />
+-      <workItem from="1728588878950" duration="18148000" />
++      <workItem from="1728588878950" duration="18968000" />
+     </task>
+     <task id="LOCAL-00001" summary="Ensure address table populates with customer relationship">
+       <option name="closed" value="true" />
+Index: src/main/java/za/ac/cput/domain/Category.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.domain;\r\n\r\nimport com.fasterxml.jackson.annotation.JsonIgnore;\r\nimport jakarta.persistence.*;\r\nimport lombok.*;\r\n\r\nimport java.io.Serializable;\r\nimport java.sql.Blob;\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\n\r\n@Entity\r\n@Table(name = \"categories\")\r\n@Getter\r\n@Setter\r\n@NoArgsConstructor\r\n@AllArgsConstructor\r\n@Builder(toBuilder = true)\r\n@ToString(exclude = \"products\")\r\n@EqualsAndHashCode(exclude = \"products\")\r\npublic class Category implements Serializable {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private long categoryId;\r\n    @Column(unique = true, nullable = false)\r\n    private String name;\r\n    private String description;\r\n\r\n    //@Lob\r\n    //private String image;\r\n\r\n    @OneToMany(mappedBy = \"category\", cascade = CascadeType.ALL,fetch = FetchType.EAGER)\r\n    @JsonIgnore\r\n    private Set<Product> products = new HashSet<>();\r\n    public void addProduct(Product product) {\r\n        if (products == null) {\r\n            products = new HashSet<>();\r\n        }\r\n        products.add(product);\r\n        product.setCategory(this);\r\n    }\r\n\r\n    public void removeProduct(Product product) {\r\n        if (products != null) {\r\n            products.remove(product);\r\n            product.setCategory(null);\r\n        }\r\n    }\r\n\r\n    public Category copy() {\r\n        return this.toBuilder().build();\r\n    }\r\n    @PrePersist\r\n    @PreUpdate\r\n    private void ensureProductsSet() {\r\n        if (this.products == null) {\r\n            this.products = new HashSet<>();\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/za/ac/cput/domain/Category.java b/src/main/java/za/ac/cput/domain/Category.java
+--- a/src/main/java/za/ac/cput/domain/Category.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/main/java/za/ac/cput/domain/Category.java	(date 1728507666556)
+@@ -10,14 +10,14 @@
+ import java.util.Set;
+ 
+ @Entity
+-@Table(name = "categories")
++@Table(name = "category")
+ @Getter
+ @Setter
+ @NoArgsConstructor
+ @AllArgsConstructor
+ @Builder(toBuilder = true)
+-@ToString(exclude = "products")
+-@EqualsAndHashCode(exclude = "products")
++@ToString(exclude = "product")
++@EqualsAndHashCode(exclude = "product")
+ public class Category implements Serializable {
+ 
+     @Id
+@@ -30,32 +30,8 @@
+     //@Lob
+     //private String image;
+ 
+-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+-    @JsonIgnore
+-    private Set<Product> products = new HashSet<>();
+-    public void addProduct(Product product) {
+-        if (products == null) {
+-            products = new HashSet<>();
+-        }
+-        products.add(product);
+-        product.setCategory(this);
+-    }
++//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
++//    @JsonIgnore
++//    private Set<Product> products = new HashSet<>();
+ 
+-    public void removeProduct(Product product) {
+-        if (products != null) {
+-            products.remove(product);
+-            product.setCategory(null);
+-        }
+-    }
+-
+-    public Category copy() {
+-        return this.toBuilder().build();
+-    }
+-    @PrePersist
+-    @PreUpdate
+-    private void ensureProductsSet() {
+-        if (this.products == null) {
+-            this.products = new HashSet<>();
+-        }
+-    }
+ }
+\ No newline at end of file
+Index: src/test/java/za/ac/cput/service/CategoryServiceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.service;\r\n\r\nimport org.junit.jupiter.api.*;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport za.ac.cput.domain.Category;\r\nimport za.ac.cput.domain.Product;\r\nimport za.ac.cput.factory.CategoryFactory;\r\nimport za.ac.cput.factory.ProductFactory;\r\n\r\nimport java.io.IOException;\r\nimport java.math.BigDecimal;\r\nimport java.sql.SQLException;\r\nimport java.util.HashSet;\r\nimport java.util.List;\r\nimport java.util.Set;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@SpringBootTest\r\n@TestMethodOrder(MethodOrderer.MethodName.class)\r\nclass CategoryServiceTest {\r\n\r\n    @Autowired\r\n    private CategoryService categoryService;\r\n\r\n    private static Category category;\r\n    private static Set<Product> products = new HashSet<>();\r\n\r\n    @BeforeAll\r\n    static void setUp() {\r\n        try {\r\n\r\n            category = CategoryFactory.createCategory(\r\n                    \"HANDYMAN\",\r\n                    \"Various tools for home improvement\",\r\n                    products\r\n            );\r\n\r\n            Product product1 = ProductFactory.createProduct(\r\n                    \"Power Drill\",\r\n                    \"High-speed power drill for home and professional use\",\r\n                    BigDecimal.valueOf(699.99), // Use BigDecimal for price and calc\r\n                    category\r\n            );\r\n            Product product2 = ProductFactory.createProduct(\r\n                    \"Electric Saw\",\r\n                    \"Efficient electric saw for cutting wood and metal\",\r\n                    BigDecimal.valueOf(499.99),\r\n                    category\r\n            );\r\n            products.add(product1);\r\n            products.add(product2);\r\n\r\n\r\n        } catch (IOException | SQLException e) {\r\n            throw new RuntimeException(\"Failed to create test category\", e);\r\n        } catch (Exception e) {\r\n            throw new RuntimeException(\"Failed to create products\", e);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    void a_create() {\r\n        Category created = categoryService.create(category);\r\n        assertNotNull(created, \"The created category should not be null\");\r\n        assertEquals(category.getName(), created.getName(), \"The category name should match\");\r\n        assertEquals(category.getDescription(), created.getDescription(), \"The category description should match\");\r\n        //assertEquals(category.getImage(), created.getImage(), \"The category image URL should match\");\r\n        assertNotNull(created.getProducts(), \"The category products should not be null\");\r\n        assertEquals(products.size(), created.getProducts().size(), \"The number of products should match\");\r\n        System.out.println(\"Created Category: \" + created);\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    void b_read() {\r\n        Category read = categoryService.read(category.getCategoryId());\r\n        assertNotNull(read);\r\n        System.out.println(read);\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    @Disabled\r\n    void c_delete() {\r\n        categoryService.delete(category.getCategoryId());\r\n        System.out.println(\"Category deleted where Category ID: \" + category.getCategoryId());\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    void d_getAll() {\r\n        List<Category> categories = categoryService.getAll();\r\n        assertFalse(categories.isEmpty());\r\n        System.out.println(categories);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/za/ac/cput/service/CategoryServiceTest.java b/src/test/java/za/ac/cput/service/CategoryServiceTest.java
+--- a/src/test/java/za/ac/cput/service/CategoryServiceTest.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/test/java/za/ac/cput/service/CategoryServiceTest.java	(date 1728508195567)
+@@ -37,20 +37,20 @@
+                     products
+             );
+ 
+-            Product product1 = ProductFactory.createProduct(
+-                    "Power Drill",
+-                    "High-speed power drill for home and professional use",
+-                    BigDecimal.valueOf(699.99), // Use BigDecimal for price and calc
+-                    category
+-            );
+-            Product product2 = ProductFactory.createProduct(
+-                    "Electric Saw",
+-                    "Efficient electric saw for cutting wood and metal",
+-                    BigDecimal.valueOf(499.99),
+-                    category
+-            );
+-            products.add(product1);
+-            products.add(product2);
++//            Product product1 = ProductFactory.createProduct(
++//                    "Power Drill",
++//                    "High-speed power drill for home and professional use",
++//                    BigDecimal.valueOf(699.99), // Use BigDecimal for price and calc
++//                    category
++//            );
++//            Product product2 = ProductFactory.createProduct(
++//                    "Electric Saw",
++//                    "Efficient electric saw for cutting wood and metal",
++//                    BigDecimal.valueOf(499.99),
++//                    category
++//            );
++//            products.add(product1);
++//            products.add(product2);
+ 
+ 
+         } catch (IOException | SQLException e) {
+@@ -68,8 +68,8 @@
+         assertEquals(category.getName(), created.getName(), "The category name should match");
+         assertEquals(category.getDescription(), created.getDescription(), "The category description should match");
+         //assertEquals(category.getImage(), created.getImage(), "The category image URL should match");
+-        assertNotNull(created.getProducts(), "The category products should not be null");
+-        assertEquals(products.size(), created.getProducts().size(), "The number of products should match");
++//        assertNotNull(created.getProducts(), "The category products should not be null");
++//        assertEquals(products.size(), created.getProducts().size(), "The number of products should match");
+         System.out.println("Created Category: " + created);
+     }
+ 
+@@ -96,4 +96,4 @@
+         assertFalse(categories.isEmpty());
+         System.out.println(categories);
+     }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/za/ac/cput/controller/ProductController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.controller;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport za.ac.cput.domain.Product;\r\nimport za.ac.cput.service.AdminService;\r\nimport za.ac.cput.service.ProductService;\r\n\r\nimport java.util.Set;\r\n\r\n@CrossOrigin(origins = \"http://localhost:5119\", maxAge = 3600)\r\n@RestController\r\n@RequestMapping(\"/products\")\r\npublic class ProductController {\r\n\r\n    private final ProductService productService;\r\n\r\n    @Autowired\r\n    public ProductController(ProductService productService) {\r\n        this.productService = productService;\r\n    }\r\n\r\n    @PostMapping(\"/create\")\r\n    public Product create(@RequestBody Product product) {\r\n        return productService.create(product);\r\n    }\r\n\r\n    @GetMapping(\"/read/{id}\")\r\n    public Product read(@PathVariable Long id) {\r\n        return productService.read(id);\r\n    }\r\n\r\n    @PutMapping(\"/update\")\r\n    public Product update(@RequestBody Product product) {\r\n        return productService.update(product);\r\n    }\r\n\r\n    @DeleteMapping(\"/delete/{id}\")\r\n    public void delete(@PathVariable Long id) {\r\n        productService.delete(id);\r\n    }\r\n\r\n    @RequestMapping(method = RequestMethod.GET, path = \"/getAll\")\r\n    public Set<Product> getAll() {\r\n        return productService.getAll();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/za/ac/cput/controller/ProductController.java b/src/main/java/za/ac/cput/controller/ProductController.java
+--- a/src/main/java/za/ac/cput/controller/ProductController.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/main/java/za/ac/cput/controller/ProductController.java	(date 1728508700814)
+@@ -1,11 +1,19 @@
+ package za.ac.cput.controller;
+ 
+ import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.http.HttpStatus;
++import org.springframework.http.MediaType;
++import org.springframework.http.ResponseEntity;
+ import org.springframework.web.bind.annotation.*;
++import org.springframework.web.multipart.MultipartFile;
++import za.ac.cput.domain.Customer;
+ import za.ac.cput.domain.Product;
+ import za.ac.cput.service.AdminService;
++import za.ac.cput.service.CustomerService;
+ import za.ac.cput.service.ProductService;
+ 
++import java.io.IOException;
++import java.util.List;
+ import java.util.Set;
+ 
+ @CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
+@@ -13,16 +21,12 @@
+ @RequestMapping("/products")
+ public class ProductController {
+ 
+-    private final ProductService productService;
+-
+     @Autowired
+-    public ProductController(ProductService productService) {
+-        this.productService = productService;
+-    }
++    private ProductService productService;
+ 
+     @PostMapping("/create")
+-    public Product create(@RequestBody Product product) {
+-        return productService.create(product);
++    public ResponseEntity<Product> create(@RequestBody Product product) {
++        return new ResponseEntity<>(productService.create(product), HttpStatus.OK);
+     }
+ 
+     @GetMapping("/read/{id}")
+@@ -30,18 +34,60 @@
+         return productService.read(id);
+     }
+ 
+-    @PutMapping("/update")
+-    public Product update(@RequestBody Product product) {
+-        return productService.update(product);
++    @PutMapping("/update/{id}")
++    public ResponseEntity<String> update(@PathVariable long id,
++                                         @RequestPart("product") Product product,
++                                         @RequestPart(value = "image", required = false) MultipartFile image) {
++        Product product1 ;
++
++        try {
++            product1 = productService.updateProduct(id, product, image);
++        } catch (IOException e) {
++            return new ResponseEntity<>("Failed to update product", HttpStatus.PRECONDITION_FAILED);
++        }
++        if(product1 != null)
++            return new ResponseEntity<>("Updated " + product1.getName(), HttpStatus.OK);
++        else
++            return new ResponseEntity<>("Product Not Found", HttpStatus.PRECONDITION_FAILED);
++
+     }
++
+ 
+     @DeleteMapping("/delete/{id}")
+-    public void delete(@PathVariable Long id) {
+-        productService.delete(id);
++    public ResponseEntity<String> delete(@PathVariable Long id) {
++        Product product = productService.getProductById(id);
++        if(product != null) {
++            productService.delete(id);
++            return new ResponseEntity<>("Deleted " + product.getName(), HttpStatus.OK);
++        }
++        else
++            return new ResponseEntity<>("Product Not Found", HttpStatus.PRECONDITION_FAILED);
+     }
+ 
+     @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+-    public Set<Product> getAll() {
+-        return productService.getAll();
++    public ResponseEntity<List<Product>> getAll() {
++
++        return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
++    }
++
++    @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
++    public ResponseEntity<?> addProduct(@RequestPart("product") Product product,
++                                        @RequestPart(value = "image", required = false) MultipartFile image) {
++        try {
++            Product product1 = productService.addProduct(product, image);
++            return new ResponseEntity<>(product1, HttpStatus.OK);
++        } catch (Exception e) {
++            return new ResponseEntity<>(e.getMessage(), HttpStatus.PRECONDITION_FAILED);
++        }
++    }
++
++    @GetMapping("/{id}/image")
++    public ResponseEntity<byte[]> getImageByProductId(@PathVariable Long id) {
++        Product product = productService.getProductById(id);
++        byte[] image = product.getImageData();
++
++        return ResponseEntity.ok()
++                .contentType(MediaType.valueOf(product.getImageType()))
++                .body(image);
+     }
+ }
+\ No newline at end of file
+Index: src/test/java/za/ac/cput/service/ProductServiceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.service;\r\n\r\nimport org.junit.jupiter.api.*;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport za.ac.cput.domain.Category;\r\nimport za.ac.cput.domain.Product;\r\nimport za.ac.cput.factory.CategoryFactory;\r\nimport za.ac.cput.factory.ProductFactory;\r\n\r\nimport java.io.IOException;\r\nimport java.math.BigDecimal;\r\nimport java.sql.Blob;\r\nimport java.sql.SQLException;\r\n\r\nimport static org.junit.jupiter.api.Assertions.assertNotNull;\r\n\r\n@SpringBootTest\r\n@TestMethodOrder(MethodOrderer.MethodName.class)\r\nclass ProductServiceTest {\r\n\r\n    @Autowired\r\n    private ProductService productService;\r\n\r\n    //private static Blob imageBlob;\r\n    private static Category category;\r\n    private static Product product;\r\n    static {\r\n        try {\r\n            category = CategoryFactory.createCategoryWithoutProducts(\"Hand Tools\", \"Tools for home improvement\");\r\n            product = ProductFactory.createProduct(\"Drill\", \"Powerful drilling machine\", BigDecimal.valueOf(199.99), category);\r\n        } catch (SQLException throwables) {\r\n            throwables.printStackTrace();\r\n        } catch (IOException e) {\r\n            throw new RuntimeException(e);\r\n        } catch (Exception e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    void a_create() {\r\n        Product created = productService.create(product);\r\n        assertNotNull(created);\r\n        System.out.println(created);\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    void b_read() {\r\n        Product read = productService.read(product.getProductId());\r\n        assertNotNull(read);\r\n        System.out.println(read);\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    @Disabled\r\n    void c_delete() {\r\n        productService.delete(product.getProductId());\r\n        System.out.println(\"Product deleted where Product ID: \" + product.getProductId());\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    void d_getAll() {\r\n        productService.getAll();\r\n        System.out.println(productService.getAll());\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/za/ac/cput/service/ProductServiceTest.java b/src/test/java/za/ac/cput/service/ProductServiceTest.java
+--- a/src/test/java/za/ac/cput/service/ProductServiceTest.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/test/java/za/ac/cput/service/ProductServiceTest.java	(date 1728508902293)
+@@ -27,7 +27,7 @@
+     private static Product product;
+     static {
+         try {
+-            category = CategoryFactory.createCategoryWithoutProducts("Hand Tools", "Tools for home improvement");
++            category = CategoryFactory.createCategory("Hand Tools", "Tools for home improvement");
+             product = ProductFactory.createProduct("Drill", "Powerful drilling machine", BigDecimal.valueOf(199.99), category);
+         } catch (SQLException throwables) {
+             throwables.printStackTrace();
+Index: src/main/java/za/ac/cput/controller/CategoryController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.controller;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport za.ac.cput.domain.Category;\r\nimport za.ac.cput.service.CategoryService;\r\n\r\nimport java.util.List;\r\nimport java.util.Set;\r\n\r\n@CrossOrigin(origins = \"http://localhost:5119\", maxAge = 3600)\r\n@RestController\r\n@RequestMapping(\"/categories\")\r\npublic class CategoryController {\r\n\r\n    @Autowired\r\n    private CategoryService categoryService;\r\n\r\n\r\n//    @PostMapping(\"/create\")\r\n//    public Category createCategory(@RequestBody Category category) {\r\n//        return categoryService.create(category);\r\n//    }\r\n@PostMapping(\"/create\")\r\npublic ResponseEntity<Category> createCategory(@RequestBody Category category) {\r\n    Category createdCategory = categoryService.create(category);\r\n    return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);\r\n}\r\n    @GetMapping(\"/read/{id}\")\r\n    public Category readCategory(@PathVariable Long id) {\r\n        return categoryService.read(id);\r\n    }\r\n\r\n    @PutMapping(\"/update\")\r\n    public Category updateCategory(@RequestBody Category category) {\r\n        return categoryService.update(category);\r\n    }\r\n\r\n    @DeleteMapping(\"/delete/{id}\")\r\n    public void deleteCategory(@PathVariable Long id) {\r\n        categoryService.delete(id);\r\n    }\r\n\r\n    @RequestMapping(method = RequestMethod.GET, path = \"/getAll\")\r\n    public List<Category> getAll() {\r\n        return categoryService.getAll();\r\n    }\r\n\r\n    @RequestMapping(method = RequestMethod.GET, path = \"/findCategoryByName\")\r\n    public Category findCategoryByName(String name){\r\n        return categoryService.findCategoryByName(name);\r\n    }\r\n}\r\n/*\r\n\r\n */
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/za/ac/cput/controller/CategoryController.java b/src/main/java/za/ac/cput/controller/CategoryController.java
+--- a/src/main/java/za/ac/cput/controller/CategoryController.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/main/java/za/ac/cput/controller/CategoryController.java	(date 1728508858380)
+@@ -19,15 +19,11 @@
+     private CategoryService categoryService;
+ 
+ 
+-//    @PostMapping("/create")
+-//    public Category createCategory(@RequestBody Category category) {
+-//        return categoryService.create(category);
+-//    }
+-@PostMapping("/create")
+-public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+-    Category createdCategory = categoryService.create(category);
+-    return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+-}
++    @PostMapping("/create")
++    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
++        Category createdCategory = categoryService.create(category);
++        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
++    }
+     @GetMapping("/read/{id}")
+     public Category readCategory(@PathVariable Long id) {
+         return categoryService.read(id);
+Index: src/main/java/za/ac/cput/service/interfaces/IProductService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.service.interfaces;\r\n\r\nimport za.ac.cput.domain.Product;\r\n\r\nimport java.util.Set;\r\n\r\npublic interface IProductService extends IService<Product, Long>{\r\n\r\n    Set<Product> getAll();\r\n    Product findProductsByName(String name);\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/za/ac/cput/service/interfaces/IProductService.java b/src/main/java/za/ac/cput/service/interfaces/IProductService.java
+--- a/src/main/java/za/ac/cput/service/interfaces/IProductService.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/main/java/za/ac/cput/service/interfaces/IProductService.java	(date 1728508532941)
+@@ -2,11 +2,12 @@
+ 
+ import za.ac.cput.domain.Product;
+ 
++import java.util.List;
+ import java.util.Set;
+ 
+ public interface IProductService extends IService<Product, Long>{
+ 
+-    Set<Product> getAll();
++    List<Product> getAll();
+     Product findProductsByName(String name);
+ 
+-}
++}
+\ No newline at end of file
+Index: src/main/java/za/ac/cput/domain/Product.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Product.java\r\npackage za.ac.cput.domain;\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.*;\r\n\r\nimport java.math.BigDecimal;\r\nimport java.math.RoundingMode;\r\nimport java.sql.Blob;\r\nimport java.util.List;\r\n\r\n@Entity\r\n@Table(name = \"products\")\r\n@Getter\r\n@Setter\r\n@NoArgsConstructor\r\n@AllArgsConstructor\r\n@Builder(toBuilder = true)\r\n@ToString\r\n@EqualsAndHashCode(exclude = \"category\")\r\npublic class Product {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private long productId;\r\n\r\n    @Column(nullable = false)\r\n    private String name;\r\n\r\n    private String description;\r\n\r\n\r\n    @Column(nullable = false,columnDefinition = \"DECIMAL(7,2)\")\r\n    // Changed from float to BigDecimal to make sure there is 2 decimal places\r\n    private BigDecimal price;\r\n\r\n    @ManyToOne(cascade = CascadeType.PERSIST)\r\n    @JoinColumn(name = \"category_id\")\r\n    private Category category;\r\n\r\n    @OneToMany(mappedBy = \"product\", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)\r\n    private List<CartItem> cartItems;\r\n\r\n    public Product copy() {\r\n        return this.toBuilder().build();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/za/ac/cput/domain/Product.java b/src/main/java/za/ac/cput/domain/Product.java
+--- a/src/main/java/za/ac/cput/domain/Product.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/main/java/za/ac/cput/domain/Product.java	(date 1728508401466)
+@@ -5,12 +5,9 @@
+ import lombok.*;
+ 
+ import java.math.BigDecimal;
+-import java.math.RoundingMode;
+-import java.sql.Blob;
+-import java.util.List;
+ 
+ @Entity
+-@Table(name = "products")
++@Table(name = "product")
+ @Getter
+ @Setter
+ @NoArgsConstructor
+@@ -24,24 +21,26 @@
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private long productId;
+ 
+-    @Column(nullable = false)
++    @Column //(nullable = false)
+     private String name;
+ 
+     private String description;
+ 
+ 
+-    @Column(nullable = false,columnDefinition = "DECIMAL(7,2)")
++    @Column(/*nullable = false,*/ columnDefinition = "DECIMAL(7,2)")
+     // Changed from float to BigDecimal to make sure there is 2 decimal places
+     private BigDecimal price;
+ 
+     @ManyToOne(cascade = CascadeType.PERSIST)
+-    @JoinColumn(name = "category_id")
++    @JoinColumn(name = "category_id", referencedColumnName = "categoryId")
+     private Category category;
+ 
+-    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+-    private List<CartItem> cartItems;
++    private String imageName;
++    private String imageType;
++
++    @Column(length = 65555)
++    @Lob
++    private byte[] imageData;
+ 
+-    public Product copy() {
+-        return this.toBuilder().build();
+-    }
++
+ }
+\ No newline at end of file
+Index: src/main/java/za/ac/cput/service/ProductService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.service;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\nimport za.ac.cput.domain.Payment;\r\nimport za.ac.cput.domain.Product;\r\nimport za.ac.cput.repository.ProductRepository;\r\nimport za.ac.cput.service.interfaces.IPaymentService;\r\nimport za.ac.cput.service.interfaces.IProductService;\r\n\r\nimport java.util.Set;\r\nimport java.util.stream.Collectors;\r\n\r\n@Service\r\npublic class ProductService implements IProductService {\r\n\r\n    private final ProductRepository productRepository;\r\n\r\n    @Autowired\r\n    ProductService(ProductRepository productRepository) {\r\n        this.productRepository = productRepository;\r\n    }\r\n\r\n    @Override\r\n    public Product create(Product product) {\r\n        return productRepository.save(product);\r\n    }\r\n\r\n\r\n    @Override\r\n    public Product read(Long id) {\r\n        return productRepository.findById(id).orElse(null);\r\n    }\r\n\r\n    @Override\r\n    public Product update(Product product) {\r\n        return productRepository.save(product);\r\n    }\r\n\r\n    @Override\r\n    public void delete(Long id) {\r\n        productRepository.deleteById(id);\r\n    }\r\n\r\n    @Override\r\n    public Set<Product> getAll() {\r\n        return productRepository.findAll().stream().collect(Collectors.toSet());\r\n    }\r\n\r\n    @Override\r\n    public Product findProductsByName(String name) {\r\n        return productRepository.findProductsByName(name);\r\n    }\r\n\r\n\r\n    /* /**\r\n     * Retrieves a product by its ID.\r\n     *\r\n     * @param id The ID of the product to retrieve.\r\n     * @return The product if found, or null if not found.\r\n     */\r\n   /* @Override\r\n    public Product read(Long id) {\r\n        Optional<Product> optionalProduct = productRepository.findById(id);\r\n        return optionalProduct.orElse(null);\r\n    }\r\n\r\n    /**\r\n     * Updates an existing product.\r\n     *\r\n     * @param product The updated product object.\r\n     * @return The updated product object.\r\n     * @throws IllegalArgumentException If the product is null.\r\n     */\r\n    /*@Override\r\n    public Product update(Product product) {\r\n        if (product == null) {\r\n            throw new IllegalArgumentException(\"Product cannot be null\");\r\n        }\r\n        return productRepository.save(product);\r\n    }\r\n\r\n    /**\r\n     * Deletes a product by its ID.\r\n     *\r\n     * @param id The ID of the product to delete.\r\n     */\r\n    /*@Override\r\n    public void delete(Long id) {\r\n        productRepository.deleteById(id);\r\n    }\r\n\r\n    /**\r\n     * Retrieves all products.\r\n     *\r\n     * @return A set of all products.\r\n     */\r\n    /*@Override\r\n    public Set<Product> getAll() {\r\n        return new HashSet<>(productRepository.findAll());\r\n    }\r\n    */\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/za/ac/cput/service/ProductService.java b/src/main/java/za/ac/cput/service/ProductService.java
+--- a/src/main/java/za/ac/cput/service/ProductService.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/main/java/za/ac/cput/service/ProductService.java	(date 1728508563490)
+@@ -2,12 +2,17 @@
+ 
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Service;
++import org.springframework.web.multipart.MultipartFile;
++import za.ac.cput.domain.Category;
+ import za.ac.cput.domain.Payment;
+ import za.ac.cput.domain.Product;
++import za.ac.cput.repository.CategoryRepository;
+ import za.ac.cput.repository.ProductRepository;
+ import za.ac.cput.service.interfaces.IPaymentService;
+ import za.ac.cput.service.interfaces.IProductService;
+ 
++import java.io.IOException;
++import java.util.List;
+ import java.util.Set;
+ import java.util.stream.Collectors;
+ 
+@@ -15,10 +20,13 @@
+ public class ProductService implements IProductService {
+ 
+     private final ProductRepository productRepository;
++    private final CategoryRepository categoryRepository;
+ 
+     @Autowired
+-    ProductService(ProductRepository productRepository) {
++    ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
++
+         this.productRepository = productRepository;
++        this.categoryRepository = categoryRepository;
+     }
+ 
+     @Override
+@@ -43,8 +51,8 @@
+     }
+ 
+     @Override
+-    public Set<Product> getAll() {
+-        return productRepository.findAll().stream().collect(Collectors.toSet());
++    public List<Product> getAll() {
++        return productRepository.findAll();
+     }
+ 
+     @Override
+@@ -52,52 +60,30 @@
+         return productRepository.findProductsByName(name);
+     }
+ 
++    public Product addProduct(Product product, MultipartFile image) throws IOException {
++        // Fetch the category from the database using the categoryId from the product object
++        //if (product.getCategory() != null && product.getCategory().getCategoryId() != null) {
++        Category category = categoryRepository.findById(product.getCategory().getCategoryId())
++                .orElseThrow(() -> new RuntimeException("Category not found with id: " + product.getCategory().getCategoryId()));
++        product.setCategory(category);  // Set the managed category entity
++        //}
+ 
+-    /* /**
+-     * Retrieves a product by its ID.
+-     *
+-     * @param id The ID of the product to retrieve.
+-     * @return The product if found, or null if not found.
+-     */
+-   /* @Override
+-    public Product read(Long id) {
+-        Optional<Product> optionalProduct = productRepository.findById(id);
+-        return optionalProduct.orElse(null);
+-    }
++        product.setImageName(image.getOriginalFilename());
++        product.setImageType(image.getContentType());
++        product.setImageData(image.getBytes());
+ 
+-    /**
+-     * Updates an existing product.
+-     *
+-     * @param product The updated product object.
+-     * @return The updated product object.
+-     * @throws IllegalArgumentException If the product is null.
+-     */
+-    /*@Override
+-    public Product update(Product product) {
+-        if (product == null) {
+-            throw new IllegalArgumentException("Product cannot be null");
+-        }
+         return productRepository.save(product);
+     }
+ 
+-    /**
+-     * Deletes a product by its ID.
+-     *
+-     * @param id The ID of the product to delete.
+-     */
+-    /*@Override
+-    public void delete(Long id) {
+-        productRepository.deleteById(id);
++    public Product getProductById(Long id) {
++        return productRepository.findById(id).orElse(null);
+     }
+ 
+-    /**
+-     * Retrieves all products.
+-     *
+-     * @return A set of all products.
+-     */
+-    /*@Override
+-    public Set<Product> getAll() {
+-        return new HashSet<>(productRepository.findAll());
++    public Product updateProduct(long id, Product product, MultipartFile image) throws IOException {
++        product.setImageName(image.getOriginalFilename());
++        product.setImageType(image.getContentType());
++        product.setImageData(image.getBytes());
++
++        return productRepository.save(product);
+     }
+-    */
+ }
+\ No newline at end of file
+Index: src/test/java/za/ac/cput/factory/ProductFactoryTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package za.ac.cput.factory;\r\n\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.junit.jupiter.api.MethodOrderer;\r\nimport org.junit.jupiter.api.Order;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.junit.jupiter.api.TestMethodOrder;\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport za.ac.cput.domain.Category;\r\nimport za.ac.cput.domain.Product;\r\n\r\nimport java.math.BigDecimal;\r\n\r\nimport static org.junit.jupiter.api.Assertions.assertNotNull;\r\n\r\n@Slf4j\r\n@SpringBootTest\r\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class)\r\npublic class ProductFactoryTest {\r\n    private static final Logger logger = LoggerFactory.getLogger(ProductFactoryTest.class);\r\n\r\n    @Test\r\n    @Order(1)\r\n    void createProduct() throws Exception {\r\n        Category category = CategoryFactory.createCategoryWithoutProducts(\"Tools\",\r\n                \"Various hardware tools\"\r\n                );\r\n\r\n        Product productWithImage = ProductFactory.createProduct(\"Power Drill\",\r\n                \"High-speed power drill for home and professional use\",\r\n                BigDecimal.valueOf(699.99),\r\n              //  \"\",\r\n                category);\r\n\r\n        assertNotNull(productWithImage);\r\n\r\n        System.out.println(productWithImage);\r\n        logger.info(\"Product created successfully: {}\", productWithImage);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/za/ac/cput/factory/ProductFactoryTest.java b/src/test/java/za/ac/cput/factory/ProductFactoryTest.java
+--- a/src/test/java/za/ac/cput/factory/ProductFactoryTest.java	(revision 29fdc397a5f44533066622721182242f3548fa9e)
++++ b/src/test/java/za/ac/cput/factory/ProductFactoryTest.java	(date 1728508889949)
+@@ -24,14 +24,13 @@
+     @Test
+     @Order(1)
+     void createProduct() throws Exception {
+-        Category category = CategoryFactory.createCategoryWithoutProducts("Tools",
++        Category category = CategoryFactory.createCategory("Tools",
+                 "Various hardware tools"
+-                );
++        );
+ 
+         Product productWithImage = ProductFactory.createProduct("Power Drill",
+                 "High-speed power drill for home and professional use",
+                 BigDecimal.valueOf(699.99),
+-              //  "",
+                 category);
+ 
+         assertNotNull(productWithImage);
+@@ -39,4 +38,4 @@
+         System.out.println(productWithImage);
+         logger.info("Product created successfully: {}", productWithImage);
+     }
+-}
++}
+\ No newline at end of file

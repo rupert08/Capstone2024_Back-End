@@ -1,0 +1,74 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]" date="1728747142072" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 2024/10/12 17:31 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/service/interfaces/IProductService.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/service/interfaces/IProductService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/IProductService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/domain/Category$CategoryBuilder.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/domain/Category$CategoryBuilder.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/Category$CategoryBuilder.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/factory/CategoryFactory.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/factory/CategoryFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/CategoryFactory.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/facade/ProductPhoto.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/facade/ProductPhoto.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductPhoto.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/controller/CategoryController.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/controller/CategoryController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/CategoryController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/controller/ProductController.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/controller/ProductController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/domain/Product.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/domain/Product.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/Product.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/service/CategoryService.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/service/CategoryService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/CategoryService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/service/ProductService.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/service/ProductService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/repository/ProductRepository.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/repository/ProductRepository.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductRepository.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/factory/ProductFactory.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/factory/ProductFactory.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductFactory.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/util/ProductHelper.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/util/ProductHelper.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductHelper.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/repository/ContactRepository.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/repository/ContactRepository.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ContactRepository.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/za/ac/cput/service/interfaces/ICategoryService.class" />
+    <option name="AFTER_PATH" value="target/classes/za/ac/cput/service/interfaces/ICategoryService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ICategoryService.class" />
+  </binary>
+</changelist>
