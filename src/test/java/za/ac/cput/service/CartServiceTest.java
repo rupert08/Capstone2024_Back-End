@@ -44,7 +44,7 @@ class CartServiceTest {
         Customer savedCustomer = customerService.create(customer);
 
         cart = CartFactory.createCart(savedCustomer);
-        Category category = CategoryFactory.createCategory("Hand Tools", "Various tools");
+        Category category = CategoryFactory.createCategoryWithoutProducts("Hand Tools", "Various tools");
         product = ProductFactory.createProduct("Hammer", "Heavy-duty hammer", BigDecimal.valueOf(19.99), category);
 
         cartItem = CartItemFactory.createCartItem(product, cart, 2);
