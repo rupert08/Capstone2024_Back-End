@@ -16,8 +16,8 @@ class AdminServiceTest {
     @Autowired
     private AdminService adminService;
 
-    private static Contact contact1 = ContactFactory.createContact("admin1@gmail.com", "0812345679");
-    private static Admin admin1 = AdminFactory.createAdmin(contact1.getEmail(), "adminUser", contact1);
+    private static Contact contact1 = ContactFactory.createContact("admin@gmail.com", "0812345679");
+    private static Admin admin1 = AdminFactory.createAdmin(contact1.getEmail(), "password","John","Wick", contact1);
 
     @Test
     @Order(1)
