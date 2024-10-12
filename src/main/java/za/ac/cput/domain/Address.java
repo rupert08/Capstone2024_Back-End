@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "address")
 @Getter
@@ -14,7 +16,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 @ToString(exclude = "customer")
 @EqualsAndHashCode
-public class Address {
+public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long addressId;
@@ -25,7 +27,7 @@ public class Address {
     private String postalCode;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

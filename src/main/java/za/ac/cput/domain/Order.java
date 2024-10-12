@@ -28,21 +28,26 @@ public class Order implements Serializable {
     @JoinColumn(name = "cartID")
     private Cart cart;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "shippingID")
+
     private Shipping shipping;
 
     private LocalDate orderDate;
     private BigDecimal totalAmount;
-    private Payment paymentMethod;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private boolean shippedOrCollected;
 
-    public void calculateTotalAmount() {
-        if (cart != null) {
-            totalAmount = cart.getTotalPrice();
-        } else {
-            totalAmount = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
-        }
-    }
+//    public void calculateTotalAmount() {
+//        if (cart != null) {
+//            totalAmount = cart.getTotalPrice();
+//        } else {
+//            totalAmount = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+//        }
+//    }
 }

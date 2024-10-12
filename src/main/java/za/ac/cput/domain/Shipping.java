@@ -23,7 +23,7 @@ public class Shipping implements Serializable {
     @ManyToOne
     @JoinColumn(name = "deliveryAddress")
     private Address deliveryAddress;
-
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private BigDecimal shippingFee;
 }

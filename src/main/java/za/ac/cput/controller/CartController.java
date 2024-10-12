@@ -10,7 +10,7 @@ import za.ac.cput.facade.CustomerCart;
 import za.ac.cput.factory.CartFactory;
 import za.ac.cput.service.CartService;
 
-@CrossOrigin(origins = "http://localhost:5116", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/cart")
 public class CartController {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Contact;
 import za.ac.cput.domain.Customer;
+import za.ac.cput.repository.ContactRepository;
 import za.ac.cput.repository.CustomerRepository;
 import za.ac.cput.service.interfaces.ICustomerService;
 
@@ -18,12 +19,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor  // Lombok will generate the constructor for final fields(Autowired)
 public class CustomerService implements ICustomerService {
     private final CustomerRepository customerRepository;
+    private final ContactRepository contactRepository;
 
-    @Override
-    public Customer create(Customer customer) {
-        return customerRepository.save(customer);
+    //    @Override
+//    public Customer create(Customer customer) {
+//        return customerRepository.save(customer);
+//    }
+@Override
+public Customer create(Customer customer) {
+    Contact existingContact = contactRepository.findByEmail(customer.getContact().getEmail());
+    if (existingContact != null) {
+        throw new IllegalArgumentException("Email already exists: " + customer.getContact().getEmail());
     }
-
+    return customerRepository.save(customer);
+}
     @Override
     public Customer read(Long id) {
         return customerRepository.findById(id).orElse(null);
@@ -48,6 +57,7 @@ public class CustomerService implements ICustomerService {
     public Customer findByUsernameAndPassword(String username, String password) {
         return customerRepository.findByUsernameAndPassword(username, password);
     }
+
 
 //    public Customer partialUpdate(Customer customer) {
 //        Optional<Customer> existingCustomerOptional = customerRepository.findById(customer.getUserId());

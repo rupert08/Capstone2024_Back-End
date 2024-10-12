@@ -2,26 +2,53 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.CartItem;
+import za.ac.cput.domain.Product;
 import za.ac.cput.repository.CartItemRepository;
-import za.ac.cput.repository.CartRepository;
 import za.ac.cput.service.interfaces.ICartItemService;
 import za.ac.cput.service.interfaces.ICartService;
+import za.ac.cput.service.interfaces.IProductService;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CartItemService implements ICartItemService {
 
-    CartItemRepository cartItemRepository;
+    private final CartItemRepository cartItemRepository;
+    private final IProductService productService;
+    private final ICartService cartService;
 
     @Autowired
-    CartItemService(CartItemRepository cartItemRepository){this.cartItemRepository = cartItemRepository;}
+    public CartItemService(CartItemRepository cartItemRepository, IProductService productService, ICartService cartService) {
+        this.cartItemRepository = cartItemRepository;
+        this.productService = productService;
+        this.cartService = cartService;
+    }
 
-    @Override
-    public CartItem create(CartItem obj) {
-        return cartItemRepository.save(obj);
+    public CartItem create(CartItem cartItem) {
+        // Retrieve and attach the Product to avoid detached entity issue
+        Product product = productService.read(cartItem.getProduct().getProductId());
+        if (product == null) {
+            throw new IllegalArgumentException("Product not found");
+        }
+        // Ensure the product entity is managed
+        cartItem.setProduct(product);
+
+        // Retrieve and attach the Cart to avoid detached entity issue
+        Cart cart = cartService.read(cartItem.getCart().getCartId());
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart not found");
+        }
+        cartItem.setCart(cart);
+
+        // Now save the cart item
+        CartItem savedCartItem = cartItemRepository.save(cartItem);
+        System.out.println("Saved CartItem: " + savedCartItem);  // Log saved item
+        return savedCartItem;
     }
 
     @Override

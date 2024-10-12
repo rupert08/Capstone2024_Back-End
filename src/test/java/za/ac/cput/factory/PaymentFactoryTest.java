@@ -21,7 +21,7 @@ class PaymentFactoryTest {
         Cart cart = CartFactory.createCart(customer);
         Address address = AddressFactory.createAddress("21", "Main Street", "Cape Town", "Western Cape", "8008", customer);
         Shipping shipping = ShippingFactory.createShipping(address, OrderStatus.PENDING, BigDecimal.valueOf(50.0));
-        return OrderFactory.buildOrder(cart, LocalDate.now(), shipping, BigDecimal.valueOf(200.0), OrderStatus.PENDING);
+        return OrderFactory.buildOrder(cart, LocalDate.now(), shipping, BigDecimal.valueOf(200.0),PaymentMethod.DEBIT_CARD, OrderStatus.PENDING);
     }
 
     @Test

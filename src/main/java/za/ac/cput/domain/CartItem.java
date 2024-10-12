@@ -1,4 +1,3 @@
-// CartItem.java
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
@@ -15,28 +14,26 @@ import java.math.RoundingMode;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@ToString(exclude = "cart")
-@EqualsAndHashCode
+@ToString(exclude = {"product", "cart"})
+@EqualsAndHashCode(exclude = {"product", "cart"})
 public class CartItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cartItemId;
+    private Long cartItemId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "productId")
-    private Product product;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cartId", nullable = false)
-    private Cart cart;
-
-    @Column(nullable = false)
     private int quantity;
 
-    private  BigDecimal itemTotalPrice;
+    @Builder.Default
+    private BigDecimal itemTotalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
 
-    // Calculate item total price,scale to 2 decimal places
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     public void calculateItemTotalPrice() {
         if (quantity < 0) {
@@ -49,9 +46,5 @@ public class CartItem implements Serializable {
         } else {
             itemTotalPrice = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         }
-    }
-
-    public BigDecimal getPrice() {
-        return itemTotalPrice;
     }
 }

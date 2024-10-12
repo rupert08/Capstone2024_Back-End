@@ -10,7 +10,7 @@ import za.ac.cput.service.CartItemService;
 
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:5116", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/cartItem")
 public class CartItemController {

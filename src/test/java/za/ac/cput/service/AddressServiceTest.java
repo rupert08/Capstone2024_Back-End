@@ -31,6 +31,7 @@ class AddressServiceTest {
     @Test
     void create() {
         Address created = addressService.create(address);
+
         assertNotNull(created);
         System.out.println(created);
     }

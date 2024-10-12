@@ -1,4 +1,3 @@
-// Cart.java
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
@@ -7,9 +6,8 @@ import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-//add comments to the class
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "carts")
@@ -18,53 +16,50 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = "cartItems")
+@EqualsAndHashCode(exclude = "cartItems")
 public class Cart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartId;
 
-    @OneToOne
-    @JoinColumn(name = "userID")
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    private int itemsQuantity;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<CartItem> cartItems = new HashSet<>();
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems = new ArrayList<>();
-    //floats values should be giving values with 2 decimal places
-    @Column(columnDefinition = "DECIMAL(7,2)")
-    private BigDecimal totalPrice;
-
-    // Add item to cart
-    public void addItem(CartItem item) {
-        cartItems.add(item);
-        item.setCart(this);
-        updateItemsQuantity();
+    public void addItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setCart(this);
         calculateTotalPrice();
     }
 
-    // Remove item from cart
-    public void removeItem(CartItem item) {
-        cartItems.remove(item);
-        item.setCart(null);
-        updateItemsQuantity();
+    public void removeItem(CartItem cartItem) {
+        cartItems.remove(cartItem);
+        cartItem.setCart(null);
         calculateTotalPrice();
     }
-//add comments in the class
-
-    // Recalculate total price as a float
 
     public void calculateTotalPrice() {
-        totalPrice = cartItems.stream()
-                .map(CartItem::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .setScale(2, RoundingMode.HALF_UP);
+        BigDecimal total = cartItems.stream()
+                .map(CartItem::getItemTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        // Assuming you have a totalPrice field
+        // this.totalPrice = total.setScale(2, RoundingMode.HALF_UP);
     }
 
-    private void updateItemsQuantity() {
-        itemsQuantity = cartItems.size();
+    public int getItemsQuantity() {
+        return cartItems.size();
+    }
+
+    public BigDecimal getTotalPrice() {
+        return cartItems.stream()
+                .map(CartItem::getItemTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }

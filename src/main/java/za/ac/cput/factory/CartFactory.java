@@ -6,17 +6,20 @@ import za.ac.cput.domain.Customer;
 import za.ac.cput.util.CartHelper;
 import za.ac.cput.util.Helper;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CartFactory {
 
     public static Cart createCart(Customer customer, List<CartItem> cartItems) {
         Helper.checkNullParam(customer);
 
+        Set<CartItem> cartItemSet = cartItems != null ? new HashSet<>(cartItems) : new HashSet<>();
+
         Cart cart = Cart.builder()
                 .customer(customer)
-                .cartItems(cartItems != null ? cartItems : new ArrayList<>())
+                .cartItems(cartItemSet)
                 .build();
 
         cart.calculateTotalPrice();
@@ -24,8 +27,12 @@ public class CartFactory {
     }
 
     public static Cart createCart(Customer customer) {
-
-        return createCart(customer, new ArrayList<>());
+        Cart cart = Cart.builder()
+                .customer(customer)
+                .cartItems(new HashSet<>())
+                .build();
+        cart.calculateTotalPrice();
+        return cart;
     }
 
     public static void addCartItem(Cart cart, CartItem cartItem) {

@@ -9,7 +9,7 @@ import za.ac.cput.util.Helper;
 public class CartItemFactory {
 
     public static CartItem createCartItem(Product product, Cart cart, int quantity) {
-        Helper.checkNullParam(product);
+        //Helper.checkNullParam(product);
         Helper.checkNullParam(cart);
         CartItemHelper.checkValidQuantity(quantity);
 

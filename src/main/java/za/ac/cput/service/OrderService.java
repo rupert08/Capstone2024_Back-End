@@ -1,25 +1,39 @@
+// OrderService.java
 package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.domain.Order;
-import za.ac.cput.repository.OderRepository;
+import za.ac.cput.domain.Shipping;
+import za.ac.cput.repository.OrderRepository;
+import za.ac.cput.repository.ShippingRepository;
 import za.ac.cput.service.interfaces.IOrderService;
 
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class OrderService implements IOrderService {
-    private final OderRepository orderRepository;
+
+    private final OrderRepository orderRepository;
+    private final ShippingRepository shippingRepository;
 
     @Autowired
-    public OrderService(OderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, ShippingRepository shippingRepository) {
         this.orderRepository = orderRepository;
+        this.shippingRepository = shippingRepository;
     }
 
     @Override
     public Order create(Order order) {
+        // Save the Shipping instance first
+        Shipping shipping = order.getShipping();
+        if (shipping != null) {
+            shippingRepository.save(shipping);
+        }
+        // Now save the Order instance
         return orderRepository.save(order);
     }
 
@@ -39,11 +53,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Set<Order> getAll() {
-        return orderRepository.findAll().stream().collect(Collectors.toSet());
+    public List<Order> getAll() {
+        return  orderRepository.findAll();
     }
 }
-
-
-
-

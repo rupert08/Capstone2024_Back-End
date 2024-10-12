@@ -39,9 +39,10 @@ class OrderFactoryTest {
         Shipping shipping = createValidShipping();
         LocalDate orderDate = LocalDate.now();
         BigDecimal totalAmount = BigDecimal.valueOf(500.0);
+        PaymentMethod paymentMethod = PaymentMethod.DEBIT_CARD;
         OrderStatus orderStatus = OrderStatus.PENDING;
 
-        Order order =  OrderFactory.buildOrder(cart, orderDate, shipping, totalAmount, orderStatus);
+        Order order =  OrderFactory.buildOrder(cart, orderDate, shipping, totalAmount,paymentMethod, orderStatus);
         assertNotNull(order);
         System.out.println(order);
     }
@@ -52,9 +53,10 @@ class OrderFactoryTest {
         Shipping shipping = createValidShipping();
         LocalDate orderDate = LocalDate.now();
         BigDecimal totalAmount = BigDecimal.valueOf(500.0);
+        PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARD;
         OrderStatus orderStatus = null;
 
-        Order order = OrderFactory.buildOrder(cart, orderDate, shipping, totalAmount, orderStatus);
+        Order order = OrderFactory.buildOrder(cart, orderDate, shipping, totalAmount,paymentMethod, orderStatus);
         assertNotNull(order);
         System.out.println(order);
     }

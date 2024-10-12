@@ -12,7 +12,7 @@ import za.ac.cput.service.AddressService;
 
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:5116", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
 @RequestMapping("/address")
 public class AddressController {

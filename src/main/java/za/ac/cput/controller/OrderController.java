@@ -1,9 +1,14 @@
 package za.ac.cput.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import za.ac.cput.domain.Customer;
 import za.ac.cput.domain.Order;
 import za.ac.cput.service.OrderService;
+
+import java.util.List;
 import java.util.Set;
 @CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
@@ -28,9 +33,16 @@ public class OrderController {
         return orderService.read(orderID);
     }
 
-    @PostMapping("/update")
-    public Order updateOrder(@RequestBody Order order) {
-        return orderService.update(order);
+    @PutMapping("/update/{orderID}")
+   // public Order updateOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> updateOrder(@PathVariable Long orderID, @RequestBody Order order) {
+        order.setOrderID(orderID);
+        Order updatedOrder= orderService.update(order);
+        if (updatedOrder != null) {
+            return ResponseEntity.ok(updatedOrder);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @DeleteMapping("/delete/{orderID}")
@@ -39,7 +51,7 @@ public class OrderController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/getAll")
-    public Set<Order> getAllOrders() {
+    public List<Order> getAllOrders() {
         return orderService.getAll();
     }
 
