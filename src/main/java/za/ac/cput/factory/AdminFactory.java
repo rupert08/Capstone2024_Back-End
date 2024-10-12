@@ -19,6 +19,21 @@ public class AdminFactory {
 
     }
 
+    public static Admin createAdmin(String username, String password, String firstName, String lastName, Contact contact) {
+        if (ContactHelper.isValidEmail(username) || Helper.isNullOrEmpty(password)) {
+            throw new IllegalArgumentException("Invalid parameters");
+        }
+
+        return Admin.builder()
+                .username(username)
+                .password(password)
+                .firstName(firstName)
+                .lastName(lastName)
+                .contact(contact)
+                .build();
+
+    }
+
     public static Admin adminLogin(String username, String password) {
         if (ContactHelper.isValidEmail(username) || Helper.isNullOrEmpty(password)) {
             throw new IllegalArgumentException("Invalid parameters");

@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 
 @Entity
@@ -17,7 +16,7 @@ import java.util.Objects;
 @SuperBuilder(toBuilder = true)  // Change to @SuperBuilder
 @ToString
 @EqualsAndHashCode
-public class User implements Serializable {
+public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)

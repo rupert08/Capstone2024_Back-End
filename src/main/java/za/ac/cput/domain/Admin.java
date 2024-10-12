@@ -14,8 +14,10 @@ import java.io.Serializable;
 @SuperBuilder(toBuilder = true)  // Use @SuperBuilder instead of @Builder
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Admin extends User implements Serializable {
+public class Admin extends Users implements Serializable {
 
+    private String firstName;
+    private String lastName;
     @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
     //@JoinColumn(name = "contactId")
     private Contact contact;

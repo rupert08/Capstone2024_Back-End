@@ -7,7 +7,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Admin;
 import za.ac.cput.domain.Contact;
-import za.ac.cput.domain.User;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
