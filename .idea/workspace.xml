@@ -4,289 +4,177 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba203461-66bc-4905-afcc-14e81a6f7e72" name="Changes" comment="Functionality of OrderManangement and Category in the fontend + additional">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/domain/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/za/ac/cput/service/interfaces/IProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/CategoryFactoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PhotoFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/PhotoFactoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/ProductFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/factory/ProductFactoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/CategoryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/CategoryServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/ProductServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/za/ac/cput/service/ProductServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CategoryController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/ProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category$CategoryBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category$CategoryBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product$ProductBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product$ProductBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CategoryFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CategoryFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IProductService.class" afterDir="false" />
+    <list default="true" id="246da687-9b5e-471a-b08a-1595bdf43e0e" name="Changes" comment="Functionality of OrderManangement and Category in the fontend + additional">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/Category$CategoryBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/CategoryController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/CategoryFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/CategoryService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ContactRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ICategoryService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/IProductService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/Product.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductPhoto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/ProductService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_10_12_17_31__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/AddressController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/AdminController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CartItemController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CategoryController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/CustomerController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/OrderController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/PhotoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/controller/ProductController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address$AddressBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Address.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin$AdminBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Admin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart$CartBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Cart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem$CartItemBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/CartItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category$CategoryBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact$ContactBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Contact.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer$CustomerBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Customer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order$OrderBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Order.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/OrderStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment$PaymentBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Payment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/PaymentMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo$PhotoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Photo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product$ProductBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Product.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping$ShippingBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/Shipping.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/User$UserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/User$UserBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/domain/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/AddCartItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerAddress.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/CustomerCart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/facade/ProductPhoto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/AddressFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/AdminFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CartItemFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CategoryFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ContactFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/CustomerFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/OrderFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/PaymentFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/PhotoFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ProductFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/factory/ShippingFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/AddressRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/AdminRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartItemRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CartRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CategoryRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ContactRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/CustomerRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/OderRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/OrderRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/PaymentRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/PhotoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ProductRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/repository/ShippingRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AddressService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/AdminService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CartItemService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CartService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CategoryService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ContactService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/CustomerService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/OrderService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/PaymentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/PhotoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ProductService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/ShippingService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAddressService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IAdminService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartItemService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICartService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICategoryService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IContactService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/ICustomerService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IOrderService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPaymentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IPhotoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IProductService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/service/interfaces/IShippingService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/AddressHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CartHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CartItemHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ContactHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/CustomerHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/Helper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/PaymentHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ProductHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/za/ac/cput/util/ShippingHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/controller/CustomerControllerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/AddressFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/AdminFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/CartFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/CartItemFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/CategoryFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/ContactFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/CustomerFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/OrderFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/PaymentFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/PhotoFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/ProductFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/factory/ShippingFactoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/service/AddressServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/service/AdminServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/service/CartItemServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/service/CategoryServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/service/CustomerServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/za/ac/cput/service/ProductServiceTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-        <option value="JUnit5 Test Class" />
-      </list>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="222894237" />
+    <option name="OPTIONS">
+      <set>
+        <option value="INTERACTIVE" />
+      </set>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-    &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;rupert08&quot;
-    }
-    }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/rupert08/Capstone2024_Back-End.git",
-    "accountId": "82ef846b-0c06-47b9-a482-f5c660722348"
-  }
-}]]></component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-    &quot;associatedIndex&quot;: 1
-    }</component>
-  <component name="ProjectId" id="2mi5kNQR6NQ7xqeR1iTAq7sHnBH" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "JUnit.CartItemServiceTest.a_create.executor": "Run",
-    "JUnit.CartItemServiceTest.b_read.executor": "Run",
-    "JUnit.CartItemServiceTest.executor": "Run",
-    "JUnit.CartServiceTest.b_read.executor": "Run",
-    "JUnit.CartServiceTest.executor": "Run",
-    "JUnit.CategoryServiceTest.executor": "Run",
-    "JUnit.CustomerServiceTest.executor": "Run",
-    "JUnit.OrderControllerTest.executor": "Run",
-    "JUnit.OrderServiceTest.a_create.executor": "Run",
-    "JUnit.OrderServiceTest.b_read.executor": "Run",
-    "JUnit.OrderServiceTest.c_getAll.executor": "Run",
-    "JUnit.OrderServiceTest.d_delete.executor": "Run",
-    "JUnit.OrderServiceTest.executor": "Run",
-    "JUnit.ProductServiceTest.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.Main.executor": "Run",
-    "ToolWindow.GitHub Copilot Chat.ShowToolbar": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Rupert/Desktop/Capstone-Front-End/Hardware-Ecommerce",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+    "git-widget-placeholder": "master"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="za.ac.cput.controller" />
-      <recent name="za.ac.cput.service" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Spring Boot.Main">
-    <configuration name="OrderControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Hardware-Ecommerce" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="za.ac.cput.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="za.ac.cput.controller" />
-      <option name="MAIN_CLASS_NAME" value="za.ac.cput.controller.OrderControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OrderServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Hardware-Ecommerce" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="za.ac.cput.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="za.ac.cput.service" />
-      <option name="MAIN_CLASS_NAME" value="za.ac.cput.service.OrderServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OrderServiceTest.c_getAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Hardware-Ecommerce" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="za.ac.cput.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="za.ac.cput.service" />
-      <option name="MAIN_CLASS_NAME" value="za.ac.cput.service.OrderServiceTest" />
-      <option name="METHOD_NAME" value="c_getAll" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OrderServiceTest.d_delete" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Hardware-Ecommerce" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="za.ac.cput.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="za.ac.cput.service" />
-      <option name="MAIN_CLASS_NAME" value="za.ac.cput.service.OrderServiceTest" />
-      <option name="METHOD_NAME" value="d_delete" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ProductServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Hardware-Ecommerce" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="za.ac.cput.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="za.ac.cput.service" />
-      <option name="MAIN_CLASS_NAME" value="za.ac.cput.service.ProductServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="Hardware-Ecommerce" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="za.ac.cput.Main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.OrderControllerTest" />
-        <item itemvalue="JUnit.OrderServiceTest" />
-        <item itemvalue="JUnit.OrderServiceTest.c_getAll" />
-        <item itemvalue="JUnit.OrderServiceTest.d_delete" />
-        <item itemvalue="JUnit.ProductServiceTest" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.22855.74" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.22855.74" />
-      </set>
-    </attachedChunks>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="ba203461-66bc-4905-afcc-14e81a6f7e72" name="Changes" comment="" />
-      <created>1727546697725</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1727546697725</updated>
-      <workItem from="1727546698793" duration="4443000" />
-      <workItem from="1727553227078" duration="1096000" />
-      <workItem from="1727558137589" duration="15282000" />
-      <workItem from="1727627672404" duration="62811000" />
-      <workItem from="1728063773332" duration="3709000" />
-      <workItem from="1728131773528" duration="52437000" />
-      <workItem from="1728420946686" duration="6834000" />
-      <workItem from="1728504311548" duration="2909000" />
-      <workItem from="1728507280585" duration="2219000" />
-      <workItem from="1728588878950" duration="18968000" />
-    </task>
-    <task id="LOCAL-00001" summary="Ensure address table populates with customer relationship">
-      <option name="closed" value="true" />
-      <created>1727648010807</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1727648010807</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Ensure address table populates with customer relationship">
-      <option name="closed" value="true" />
-      <created>1727648118210</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1727648118210</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Ensure address table populates with customer relationship" />
     <MESSAGE value="Functionality of OrderManangement and Category in the fontend + additional" />
     <option name="LAST_COMMIT_MESSAGE" value="Functionality of OrderManangement and Category in the fontend + additional" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/za/ac/cput/factory/CategoryFactory.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
