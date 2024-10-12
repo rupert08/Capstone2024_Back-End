@@ -27,7 +27,7 @@ class ProductServiceTest {
     private static Product product;
     static {
         try {
-            category = CategoryFactory.createCategoryWithoutProducts("Hand Tools", "Tools for home improvement");
+            category = CategoryFactory.createCategory("Hand Tools", "Tools for home improvement");
             product = ProductFactory.createProduct("Drill", "Powerful drilling machine", BigDecimal.valueOf(199.99), category);
         } catch (SQLException throwables) {
             throwables.printStackTrace();

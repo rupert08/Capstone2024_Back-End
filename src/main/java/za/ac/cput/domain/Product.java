@@ -5,12 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.Blob;
-import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,24 +21,26 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
 
-    @Column(nullable = false)
+    @Column //(nullable = false)
     private String name;
 
     private String description;
 
 
-    @Column(nullable = false,columnDefinition = "DECIMAL(7,2)")
+    @Column(/*nullable = false,*/ columnDefinition = "DECIMAL(7,2)")
     // Changed from float to BigDecimal to make sure there is 2 decimal places
     private BigDecimal price;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", referencedColumnName = "categoryId")
     private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<CartItem> cartItems;
+    private String imageName;
+    private String imageType;
 
-    public Product copy() {
-        return this.toBuilder().build();
-    }
+    @Column(length = 65555)
+    @Lob
+    private byte[] imageData;
+
+
 }

@@ -24,14 +24,13 @@ public class ProductFactoryTest {
     @Test
     @Order(1)
     void createProduct() throws Exception {
-        Category category = CategoryFactory.createCategoryWithoutProducts("Tools",
+        Category category = CategoryFactory.createCategory("Tools",
                 "Various hardware tools"
-                );
+        );
 
         Product productWithImage = ProductFactory.createProduct("Power Drill",
                 "High-speed power drill for home and professional use",
                 BigDecimal.valueOf(699.99),
-              //  "",
                 category);
 
         assertNotNull(productWithImage);

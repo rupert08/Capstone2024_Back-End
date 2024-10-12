@@ -10,14 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "category")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@ToString(exclude = "products")
-@EqualsAndHashCode(exclude = "products")
+@ToString(exclude = "product")
+@EqualsAndHashCode(exclude = "product")
 public class Category implements Serializable {
 
     @Id
@@ -30,32 +30,8 @@ public class Category implements Serializable {
     //@Lob
     //private String image;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<Product> products = new HashSet<>();
-    public void addProduct(Product product) {
-        if (products == null) {
-            products = new HashSet<>();
-        }
-        products.add(product);
-        product.setCategory(this);
-    }
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JsonIgnore
+//    private Set<Product> products = new HashSet<>();
 
-    public void removeProduct(Product product) {
-        if (products != null) {
-            products.remove(product);
-            product.setCategory(null);
-        }
-    }
-
-    public Category copy() {
-        return this.toBuilder().build();
-    }
-    @PrePersist
-    @PreUpdate
-    private void ensureProductsSet() {
-        if (this.products == null) {
-            this.products = new HashSet<>();
-        }
-    }
 }

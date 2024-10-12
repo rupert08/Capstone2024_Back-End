@@ -19,15 +19,11 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
-//    @PostMapping("/create")
-//    public Category createCategory(@RequestBody Category category) {
-//        return categoryService.create(category);
-//    }
-@PostMapping("/create")
-public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-    Category createdCategory = categoryService.create(category);
-    return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
-}
+    @PostMapping("/create")
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        Category createdCategory = categoryService.create(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+    }
     @GetMapping("/read/{id}")
     public Category readCategory(@PathVariable Long id) {
         return categoryService.read(id);

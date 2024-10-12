@@ -46,7 +46,7 @@ public class CategoryFactory {
                 .name(name)
                 .description(description)
                 //.image(imagePath)
-                .products(products)
+                //.products(products)
                 .build();
 //        if (products != null) {
 //            for (Product product : products) {
@@ -55,7 +55,7 @@ public class CategoryFactory {
 //        }
         return category;
     }
-    public static Category createCategoryWithoutProducts(String name, String description/*, String imagePath*/) throws Exception {
+    public static Category createCategory(String name, String description/*, String imagePath*/) throws Exception {
         return createCategory(name, description, /*imagePath,*/ new HashSet<>());
     }
 

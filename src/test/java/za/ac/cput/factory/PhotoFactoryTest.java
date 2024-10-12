@@ -19,7 +19,7 @@ public class PhotoFactoryTest {
 
     @Test
     void a_createPhoto() throws Exception {
-        Category category = CategoryFactory.createCategoryWithoutProducts("Power Tools", "Dummy Description");
+        Category category = CategoryFactory.createCategory("Power Tools", "Dummy Description");
         Product product = ProductFactory.createProduct("Chain Saw", "Dummy Description", BigDecimal.valueOf(699.99), category );
         Photo photo = PhotoFactory.createPhoto(product, "image", product.getName(), "jpg");
         System.out.println(photo);
