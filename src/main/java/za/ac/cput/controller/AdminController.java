@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Admin;
 import za.ac.cput.factory.AdminFactory;
-import za.ac.cput.factory.CustomerFactory;
 import za.ac.cput.service.AdminService;
 
 @CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)

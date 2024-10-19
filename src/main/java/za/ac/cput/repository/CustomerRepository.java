@@ -7,4 +7,6 @@ import za.ac.cput.domain.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 Customer findByUsernameAndPassword(String username, String password);
+
+    Customer findByUsername(String username);
 }

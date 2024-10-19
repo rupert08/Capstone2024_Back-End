@@ -8,9 +8,7 @@ import za.ac.cput.domain.Contact;
 import za.ac.cput.domain.Customer;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 

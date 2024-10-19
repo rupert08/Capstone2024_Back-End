@@ -5,17 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Customer;
-import za.ac.cput.factory.AddressFactory;
 import za.ac.cput.factory.CustomerFactory;
 import za.ac.cput.service.CustomerService;
 
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static org.hibernate.type.descriptor.JdbcExtractingLogging.LOGGER;
 
 @CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
