@@ -53,15 +53,24 @@ public class CustomerController {
 
     @PostMapping("/register")
     public ResponseEntity<Customer> register(@RequestBody Customer customer) {
+        if (customer.getContact() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
         String password = encoder.encode(customer.getPassword());
-        Customer buildObj = CustomerFactory.createCustomer(customer.getContact().getEmail(), customer.getFirstName(), customer.getLastName(), customer.getContact(), password);
+        Customer buildObj = CustomerFactory.createCustomer(
+                customer.getContact().getEmail(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getContact(),
+                password
+        );
+
         Customer exists = customerService.read(customer.getUserId());
-        if (buildObj == null) {
+        if (buildObj == null || exists != null) {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(null);
         }
-        if (exists != null) {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(null);
-        }
+
         return ResponseEntity.status(HttpStatus.OK).body(customerService.create(buildObj));
     }
 
