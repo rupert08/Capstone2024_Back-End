@@ -64,8 +64,9 @@ public class CustomerFactory {
                 .address(address)
                 .build();
     }
-    public static Customer createCustomer(String firstName, String lastName, Contact contact) {
-            Customer.builder().username(contact.getEmail()).build();
+    public static Customer createCustomer(String username, String firstName, String lastName, Contact contact, String password) {
+        Customer.builder().username(contact.getEmail()).build();
+        String phoneNumber = contact.getPhoneNumber();
 
 //        if (ContactHelper.isValidEmail(username)) {
 //            throw new IllegalArgumentException("Invalid username ");
@@ -83,9 +84,11 @@ public class CustomerFactory {
 //            throw new IllegalArgumentException("Password cannot be null or empty");
 //        }
         return  Customer.builder()
+                .username(username)
                 .firstName(firstName)
                 .lastName(lastName)
                 .contact(contact)
+                .password(password)
                 .build();
     }
     public static Customer createCustomer(String username, String password, String firstName, String lastName, Contact contact){
@@ -101,4 +104,3 @@ public class CustomerFactory {
                 .build();
     }
 }
-

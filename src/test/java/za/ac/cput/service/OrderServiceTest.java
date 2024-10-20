@@ -41,7 +41,7 @@ class OrderServiceTest {
 
     @BeforeAll
     void setUp() throws Exception {
-        String uniqueEmail = "john.doe+@example.com";
+        String uniqueEmail = "johnWick+@example.com";
         Contact contact = ContactFactory.createContact(uniqueEmail, "0211234567");
 
         Customer customer = CustomerFactory.createCustomer(

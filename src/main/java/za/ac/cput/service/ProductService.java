@@ -2,12 +2,17 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import za.ac.cput.domain.Category;
 import za.ac.cput.domain.Payment;
 import za.ac.cput.domain.Product;
+import za.ac.cput.repository.CategoryRepository;
 import za.ac.cput.repository.ProductRepository;
 import za.ac.cput.service.interfaces.IPaymentService;
 import za.ac.cput.service.interfaces.IProductService;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,10 +20,13 @@ import java.util.stream.Collectors;
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    ProductService(ProductRepository productRepository) {
+    ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -43,8 +51,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Set<Product> getAll() {
-        return productRepository.findAll().stream().collect(Collectors.toSet());
+    public List<Product> getAll() {
+        return productRepository.findAll();
     }
 
     @Override
@@ -52,52 +60,30 @@ public class ProductService implements IProductService {
         return productRepository.findProductsByName(name);
     }
 
+    public Product addProduct(Product product, MultipartFile image) throws IOException {
+        // Fetch the category from the database using the categoryId from the product object
+        //if (product.getCategory() != null && product.getCategory().getCategoryId() != null) {
+        Category category = categoryRepository.findById(product.getCategory().getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + product.getCategory().getCategoryId()));
+        product.setCategory(category);  // Set the managed category entity
+        //}
 
-    /* /**
-     * Retrieves a product by its ID.
-     *
-     * @param id The ID of the product to retrieve.
-     * @return The product if found, or null if not found.
-     */
-   /* @Override
-    public Product read(Long id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        return optionalProduct.orElse(null);
-    }
+        product.setImageName(image.getOriginalFilename());
+        product.setImageType(image.getContentType());
+        product.setImageData(image.getBytes());
 
-    /**
-     * Updates an existing product.
-     *
-     * @param product The updated product object.
-     * @return The updated product object.
-     * @throws IllegalArgumentException If the product is null.
-     */
-    /*@Override
-    public Product update(Product product) {
-        if (product == null) {
-            throw new IllegalArgumentException("Product cannot be null");
-        }
         return productRepository.save(product);
     }
 
-    /**
-     * Deletes a product by its ID.
-     *
-     * @param id The ID of the product to delete.
-     */
-    /*@Override
-    public void delete(Long id) {
-        productRepository.deleteById(id);
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElse(null);
     }
 
-    /**
-     * Retrieves all products.
-     *
-     * @return A set of all products.
-     */
-    /*@Override
-    public Set<Product> getAll() {
-        return new HashSet<>(productRepository.findAll());
+    public Product updateProduct(long id, Product product, MultipartFile image) throws IOException {
+        product.setImageName(image.getOriginalFilename());
+        product.setImageType(image.getContentType());
+        product.setImageData(image.getBytes());
+
+        return productRepository.save(product);
     }
-    */
 }

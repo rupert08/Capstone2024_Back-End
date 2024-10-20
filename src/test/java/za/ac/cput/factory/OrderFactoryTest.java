@@ -23,7 +23,7 @@ class OrderFactoryTest {
 
 
     private Cart createValidCart() {
-        Contact contact = ContactFactory.createContact("john.doe@example.com", "0783139988");
+        Contact contact = ContactFactory.createContact("john@example.com", "0783139988");
         Customer customer = CustomerFactory.createCustomer(contact.getEmail(), "123456");
         return CartFactory.createCart(customer);
     }

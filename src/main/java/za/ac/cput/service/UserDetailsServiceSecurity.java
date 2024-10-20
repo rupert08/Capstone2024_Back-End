@@ -27,8 +27,10 @@ public class UserDetailsServiceSecurity implements UserDetailsService {
         Customer customer = customerRepository.findByUsername(username);
 
         if(admin != null) {
+            System.out.println("Admin found: " + username);
             return new UserPrincipalSec(admin);
         } else if (customer != null) {
+            System.out.println("Customer found: " + username);
             return new CustomerUserPrincipal(customer);
         }
         System.out.println("User not found...");

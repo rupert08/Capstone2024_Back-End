@@ -8,7 +8,7 @@ import za.ac.cput.domain.Category;
 import za.ac.cput.service.CategoryService;
 
 import java.util.List;
-import java.util.Set;
+
 
 @CrossOrigin(origins = "http://localhost:5119", maxAge = 3600)
 @RestController
